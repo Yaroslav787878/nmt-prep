@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>НМТ Hub — Підготовка до іспитів</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="navbar">
+    <div class="logo">НМТ<span>Hub</span></div>
+    <div class="progress-badge">
+      Пройдено тестів: <strong id="completed-count">0</strong>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- Вибір класу -->
+    <section class="selector-group">
+      <h3>1. Обери клас:</h3>
+      <div class="grades-grid" id="grades-container">
+        <button class="grade-btn active" data-grade="11">11 клас (НМТ)</button>
+        <button class="grade-btn disabled" title="У розробці">10 клас</button>
+        <button class="grade-btn disabled" title="У розробці">9 клас</button>
+        <button class="grade-btn disabled" title="У розробці">8 клас</button>
+        <button class="grade-btn disabled" title="У розробці">7 клас</button>
+        <button class="grade-btn disabled" title="У розробці">6 клас</button>
+        <button class="grade-btn disabled" title="У розробці">5 клас</button>
+      </div>
+    </section>
+
+    <!-- Вибір предмета -->
+    <section class="selector-group">
+      <h3>2. Обери предмет:</h3>
+      <div class="subjects-grid">
+        <button class="subject-btn active" data-subject="history">🇺🇦 Історія України</button>
+        <button class="subject-btn" data-subject="math">📐 Математика</button>
+        <button class="subject-btn" data-subject="english">🇬🇧 Англійська мова</button>
+        <button class="subject-btn" data-subject="ukrainian">📘 Українська мова</button>
+      </div>
+    </section>
+
+    <!-- Робоча зона контенту -->
+    <section id="workspace" class="workspace">
+      <!-- Динамічно заповнюється через script.js -->
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,189 @@
+:root {
+  --bg: #0f172a;
+  --card: #1e293b;
+  --card-hover: #334155;
+  --text: #f8fafc;
+  --muted: #94a3b8;
+  --accent: #3b82f6;
+  --accent-hover: #2563eb;
+  --success: #22c55e;
+  --danger: #ef4444;
+  --border: #334155;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  padding-bottom: 60px;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 32px;
+  background-color: var(--card);
+  border-bottom: 1px solid var(--border);
+}
+
+.logo {
+  font-size: 24px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+}
+
+.logo span {
+  color: var(--accent);
+}
+
+.progress-badge {
+  background: rgba(59, 130, 246, 0.15);
+  color: #93c5fd;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 14px;
+  border: 1px solid rgba(59, 130, 246, 0.3);
+}
+
+.container {
+  max-width: 960px;
+  margin: 32px auto;
+  padding: 0 20px;
+}
+
+.selector-group {
+  margin-bottom: 28px;
+}
+
+.selector-group h3 {
+  font-size: 15px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--muted);
+  margin-bottom: 12px;
+}
+
+.grades-grid, .subjects-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+button {
+  cursor: pointer;
+  border: 1px solid var(--border);
+  background: var(--card);
+  color: var(--text);
+  padding: 10px 18px;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+button:hover:not(.disabled) {
+  background: var(--card-hover);
+  transform: translateY(-1px);
+}
+
+button.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: white;
+}
+
+button.disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* Вкладки всередині предмета */
+.tabs {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 24px;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 12px;
+}
+
+/* Картки конспекту (слайди з презентації) */
+.slides-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+}
+
+.slide-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px;
+}
+
+.slide-card h4 {
+  color: #60a5fa;
+  margin-bottom: 10px;
+  font-size: 18px;
+}
+
+.slide-card ul {
+  padding-left: 20px;
+  color: #cbd5e1;
+}
+
+.slide-card li {
+  margin-bottom: 6px;
+}
+
+/* Блок тестування */
+.quiz-box {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 24px;
+}
+
+.quiz-question {
+  font-size: 19px;
+  font-weight: 600;
+  margin-bottom: 18px;
+}
+
+.options-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.option-btn {
+  text-align: left;
+  padding: 14px 18px;
+  font-weight: 500;
+}
+
+.option-btn.correct {
+  background: rgba(34, 197, 94, 0.2);
+  border-color: var(--success);
+  color: #86efac;
+}
+
+.option-btn.wrong {
+  background: rgba(239, 68, 68, 0.2);
+  border-color: var(--danger);
+  color: #fca5a5;
+}
+
+.quiz-footer {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
