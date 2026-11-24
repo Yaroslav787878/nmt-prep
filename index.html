@@ -3,49 +3,243 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>НМТ Hub — Підготовка до іспитів</title>
+  <title>NMT Prep — Платформа підготовки до НМТ</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <header class="navbar">
-    <div class="logo">НМТ<span>Hub</span></div>
-    <div class="progress-badge">
-      Пройдено тестів: <strong id="completed-count">0</strong>
+
+  <!-- ВЕРХНЯ ПАНЕЛЬ НАВІГАЦІЇ (видима після входу) -->
+  <header id="top-bar" class="top-bar hidden">
+    <div class="container top-bar-inner">
+      <div class="brand" onclick="goToSubjects()">
+        <span class="brand-badge">НМТ</span>
+        <span class="brand-title">NMT Prep</span>
+      </div>
+      <div class="user-controls">
+        <span id="current-user-name" class="user-pill"></span>
+        <button id="btn-admin-panel" class="btn btn-warning btn-sm hidden" onclick="openAdminPanel()">Адмін-панель</button>
+        <button class="btn btn-outline btn-sm" onclick="logoutUser()">Вийти</button>
+      </div>
     </div>
   </header>
 
-  <main class="container">
-    <!-- Вибір класу -->
-    <section class="selector-group">
-      <h3>1. Обери клас:</h3>
-      <div class="grades-grid" id="grades-container">
-        <button class="grade-btn active" data-grade="11">11 клас (НМТ)</button>
-        <button class="grade-btn disabled" title="У розробці">10 клас</button>
-        <button class="grade-btn disabled" title="У розробці">9 клас</button>
-        <button class="grade-btn disabled" title="У розробці">8 клас</button>
-        <button class="grade-btn disabled" title="У розробці">7 клас</button>
-        <button class="grade-btn disabled" title="У розробці">6 клас</button>
-        <button class="grade-btn disabled" title="У розробці">5 клас</button>
+  <main class="container main-wrapper">
+
+    <!-- ЕКРАН 1: АВТОРИЗАЦІЯ ТА РЕЄСТРАЦІЯ -->
+    <section id="view-auth" class="auth-section">
+      <div class="auth-header">
+        <div class="logo-big">NMT Prep</div>
+        <p class="subtitle">Інтерактивна платформа для ефективної підготовки до НМТ</p>
+      </div>
+
+      <div class="auth-grid">
+        <!-- Віконце 1: Реєстрація -->
+        <div class="card auth-card">
+          <h2>Реєстрація</h2>
+          <p class="card-desc">Створіть акаунт, щоб зберігати прогрес тестів та бачити аналіз помилок</p>
+          <form id="form-register" onsubmit="handleRegister(event)">
+            <div class="form-group">
+              <label for="reg-name">Ім'я *</label>
+              <input type="text" id="reg-name" placeholder="Наприклад: Олександр" required>
+            </div>
+            <div class="form-group">
+              <label for="reg-surname">Прізвище *</label>
+              <input type="text" id="reg-surname" placeholder="Наприклад: Коваленко" required>
+            </div>
+            <div class="form-group">
+              <label for="reg-phone">Номер телефону (необов'язково)</label>
+              <input type="tel" id="reg-phone" placeholder="+380...">
+            </div>
+            <div class="form-group">
+              <label for="reg-password">Пароль *</label>
+              <input type="password" id="reg-password" placeholder="Придумайте пароль" minlength="4" required>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Зареєструватися</button>
+          </form>
+        </div>
+
+        <!-- Віконце 2: Увійти -->
+        <div class="card auth-card">
+          <h2>Увійти</h2>
+          <p class="card-desc">Вже маєте акаунт? Введіть свої дані для продовження навчання</p>
+          <form id="form-login" onsubmit="handleLogin(event)">
+            <div class="form-group">
+              <label for="login-fullname">Ім'я та Прізвище *</label>
+              <input type="text" id="login-fullname" placeholder="Ім'я Прізвище" required>
+            </div>
+            <div class="form-group">
+              <label for="login-password">Пароль *</label>
+              <input type="password" id="login-password" placeholder="Ваш пароль" required>
+            </div>
+            <div id="auth-error" class="error-box hidden"></div>
+            <button type="submit" class="btn btn-success btn-block">Увійти на сайт</button>
+          </form>
+        </div>
       </div>
     </section>
 
-    <!-- Вибір предмета -->
-    <section class="selector-group">
-      <h3>2. Обери предмет:</h3>
+    <!-- ЕКРАН 2: ОБЕРИ ПРЕДМЕТ -->
+    <section id="view-subjects" class="hidden">
+      <div class="section-center-header">
+        <h1>Обери предмет для підготовки</h1>
+        <p class="subtitle">Обирай дисципліну, вивчай структуровані конспекти та тренуйся на тестах формату НМТ</p>
+      </div>
+
       <div class="subjects-grid">
-        <button class="subject-btn active" data-subject="history">🇺🇦 Історія України</button>
-        <button class="subject-btn" data-subject="math">📐 Математика</button>
-        <button class="subject-btn" data-subject="english">🇬🇧 Англійська мова</button>
-        <button class="subject-btn" data-subject="ukrainian">📘 Українська мова</button>
+        <div class="subject-card" onclick="openSubject('ua')">
+          <div class="subject-icon">🇺🇦</div>
+          <h3>Українська мова</h3>
+          <p>Фонетика, орфографія, лексикологія, морфологія, синтаксис + 40 варіантів НМТ</p>
+          <span class="subject-status status-ready">Доступно</span>
+        </div>
+
+        <div class="subject-card" onclick="openSubject('math')">
+          <div class="subject-icon">📐</div>
+          <h3>Математика</h3>
+          <p>Алгебра, геометрія, формули, типові задачі та тренувальні варіанти</p>
+          <span class="subject-status status-soon">Готується до додавання</span>
+        </div>
+
+        <div class="subject-card" onclick="openSubject('history')">
+          <div class="subject-icon">🏛️</div>
+          <h3>Історія України</h3>
+          <p>Дати, постаті, візуальні пам'ятки, карти та хронологічні тести</p>
+          <span class="subject-status status-soon">Готується до додавання</span>
+        </div>
       </div>
     </section>
 
-    <!-- Робоча зона контенту -->
-    <section id="workspace" class="workspace">
-      <!-- Динамічно заповнюється через script.js -->
+    <!-- ЕКРАН 3: РОБОЧИЙ ПРОСТІР ПРЕДМЕТА (ТЕМИ / ТЕСТИ) -->
+    <section id="view-subject-workspace" class="hidden">
+      <div class="workspace-header">
+        <button class="btn btn-outline btn-sm" onclick="goToSubjects()">← До вибору предметів</button>
+        <h1 id="workspace-subject-title">Українська мова</h1>
+      </div>
+
+      <!-- Перемикач: ТЕМИ / ТЕСТИ -->
+      <div class="mode-switcher">
+        <button id="tab-themes" class="mode-btn active" onclick="switchSubjectMode('themes')">📚 Теми (Конспекти)</button>
+        <button id="tab-tests" class="mode-btn" onclick="switchSubjectMode('tests')">📝 Тести та варіанти НМТ</button>
+      </div>
+
+      <!-- Вкладка 3А: СПИСОК ТЕМ -->
+      <div id="workspace-themes-list">
+        <div id="themes-container" class="themes-list-grid"></div>
+      </div>
+
+      <!-- Вкладка 3Б: ПЕРЕГЛЯД КОНКРЕТНОГО КОНСПЕКТУ -->
+      <div id="workspace-theme-reader" class="hidden">
+        <button class="btn btn-outline btn-sm mb-16" onclick="backToThemesList()">← Назад до списку тем</button>
+        <article id="theme-reader-content" class="card reader-card"></article>
+      </div>
+
+      <!-- Вкладка 3В: СПИСОК ТЕСТІВ (ЗА ТЕМАМИ + 40 ВАРІАНТІВ НМТ) -->
+      <div id="workspace-tests-list" class="hidden">
+        <div class="tests-categories">
+          <div class="card">
+            <h3>🎯 Тематичні тести</h3>
+            <p class="card-desc">Закріплення знань після кожної вивченої теми</p>
+            <div id="topic-tests-container" class="mini-cards-grid"></div>
+          </div>
+
+          <div class="card mt-20">
+            <h3>🏆 Повноцінні варіанти НМТ</h3>
+            <p class="card-desc">Тренувальні варіанти формату НМТ із розбором помилок</p>
+            <div id="nmt-variants-container" class="variants-grid"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Вкладка 3Г: ПРОХОДЖЕННЯ ТЕСТУ -->
+      <div id="workspace-quiz-runner" class="hidden">
+        <div class="quiz-top-bar">
+          <button class="btn btn-outline btn-sm" onclick="exitQuiz()">✕ Завершити тест</button>
+          <span id="quiz-title-badge" class="badge-info"></span>
+          <span id="quiz-progress-text" class="progress-text">Питання 1 з 10</span>
+        </div>
+
+        <div class="progress-bar-track">
+          <div id="quiz-progress-fill" class="progress-bar-fill"></div>
+        </div>
+
+        <div id="quiz-question-box" class="card quiz-card"></div>
+      </div>
+
+      <!-- Вкладка 3Д: РЕЗУЛЬТАТ ТЕСТУ ТА РОЗУМНИЙ АНАЛІЗ ПОМИЛОК -->
+      <div id="workspace-quiz-result" class="hidden">
+        <div class="card result-card">
+          <h2>Результат тестування</h2>
+          <div id="result-score-circle" class="score-circle">0 / 0</div>
+          <p id="result-summary-text" class="subtitle"></p>
+
+          <div id="ai-mistake-analysis" class="analysis-box"></div>
+
+          <div class="result-actions">
+            <button class="btn btn-primary" onclick="backToTestsList()">До списку тестів</button>
+            <button class="btn btn-outline" onclick="switchSubjectMode('themes')">Повторити теорію</button>
+          </div>
+        </div>
+      </div>
     </section>
+
+    <!-- ЕКРАН 4: ПАНЕЛЬ АДМІНІСТРАТОРА -->
+    <section id="view-admin" class="hidden">
+      <div class="workspace-header">
+        <button class="btn btn-outline btn-sm" onclick="goToSubjects()">← Назад на сайт</button>
+        <h1>Панель адміністратора</h1>
+      </div>
+
+      <div class="stats-overview-grid">
+        <div class="card stat-card">
+          <span class="stat-label">Усього зареєстровано</span>
+          <span id="admin-total-users" class="stat-value">0</span>
+        </div>
+        <div class="card stat-card">
+          <span class="stat-label">Зараз онлайн</span>
+          <span id="admin-online-users" class="stat-value text-success">0</span>
+        </div>
+        <div class="card stat-card">
+          <span class="stat-label">Пройдено тестів</span>
+          <span id="admin-total-tests" class="stat-value">0</span>
+        </div>
+      </div>
+
+      <div class="card mt-20">
+        <h3>Усі учасники платформи (натисніть на учня для детального перегляду)</h3>
+        <div class="table-responsive">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Учень</th>
+                <th>Телефон</th>
+                <th>Дата реєстрації</th>
+                <th>Час на сайті</th>
+                <th>Пройдено тестів</th>
+                <th>Останній візит</th>
+              </tr>
+            </thead>
+            <tbody id="admin-users-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
   </main>
 
-  <script src="script.js"></script>
+  <!-- МОДАЛЬНЕ ВІКНО ДЕТАЛЬНОЇ СТАТИСТИКИ КОНКРЕТНОГО УЧНЯ -->
+  <div id="modal-user-details" class="modal-backdrop hidden" onclick="closeUserModal(event)">
+    <div class="modal-window card" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <h2 id="modal-student-name">Ім'я Прізвище</h2>
+        <button class="btn-close" onclick="closeUserModal()">✕</button>
+      </div>
+      <div id="modal-student-body" class="modal-body"></div>
+    </div>
+  </div>
+
+  <!-- Підключення скриптів (створимо в наступних кроках) -->
+  <script src="theory-ua.js"></script>
+  <script src="tests-ua.js"></script>
+  <script type="module" src="app.js"></script>
 </body>
 </html>
