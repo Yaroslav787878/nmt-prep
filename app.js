@@ -2,23 +2,29 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/fireba
 import { getDatabase, ref, set, get, update, onValue, child } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
 // ==========================================
-// 1. НАЛАШТУВАННЯ FIREBASE (ВСТАВ СВОЇ ДАНІ НИЖЧЕ)
+// 1. НАЛАШТУВАННЯ FIREBASE
 // ==========================================
-npm install firebase
+const firebaseConfig = {
+  apiKey: "AIzaSyC6L1rs5460sRUYjuPjAr_WbwWxOhHD5pU",
+  authDomain: "nmt-prep-6b815.firebaseapp.com",
+  databaseURL: "https://nmt-prep-6b815-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "nmt-prep-6b815",
+  storageBucket: "nmt-prep-6b815.firebasestorage.app",
+  messagingSenderId: "752540646602",
+  appId: "1:752540646602:web:cedb749dc8399d2a6bc833",
+  measurementId: "G-KM1MJJP4BJ"
+};
 
 let db = null;
 let useCloud = false;
 
-if (firebaseConfig.apiKey !== "ВСТАВ_СВІЙ_API_KEY") {
-  try {
-    const app = initializeApp(firebaseConfig);
-    db = getDatabase(app);
-    useCloud = true;
-  } catch (e) {
-    console.warn("Firebase не підключено, використовується локальний режим:", e);
-  }
+try {
+  const app = initializeApp(firebaseConfig);
+  db = getDatabase(app);
+  useCloud = true;
+} catch (e) {
+  console.warn("Firebase не підключено, використовується локальний режим:", e);
 }
-
 // ==========================================
 // 2. ДАНІ АДМІНІСТРАТОРА ТА СТАН ДОДАТКУ
 // ==========================================
